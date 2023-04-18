@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const fetchRoomData = async (room_id) => {
     if (!room_id) return;
-    const url = `http://127.0.0.1:8080/conversations/${room_id}`;
+    const url = `http://1.14.155.26:8888/conversations/${room_id}`;
     try {
         let resp = await fetch(url).then(res => res.json());
         return resp;

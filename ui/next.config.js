@@ -6,7 +6,7 @@ const nextConfig = {
       {
         source: "/_next/:path*",
         headers: [
-          { key: "Access-Control-Allow-Origin", value: "http://127.0.0.1:8080" },
+          { key: "Access-Control-Allow-Origin", value: "http://1.14.155.26:8888" },
         ],
       },
     ]

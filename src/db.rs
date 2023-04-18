@@ -58,10 +58,15 @@ pub fn get_all_rooms(conn: &mut SqliteConnection) -> Result<Vec<RoomResponse>, D
     let mut rooms_map = HashMap::new();
     let data = rooms_data.to_vec();
     for room in &data {
-        let user_ids = room
-            .participant_ids
-            .split(",")
+        // let user_ids = room
+        //     .participant_ids
+        //     .split(",")
+        //     .into_iter()
+        //     .collect::<Vec<_>>();
+        let all_users: Vec<User> = users::table.get_results(conn)?;
+        let user_ids = all_users
             .into_iter()
+            .map(|item| item.id.to_string())
             .collect::<Vec<_>>();
         for id in user_ids.to_vec() {
             ids.insert(id.to_string());
@@ -79,15 +84,18 @@ pub fn get_all_rooms(conn: &mut SqliteConnection) -> Result<Vec<RoomResponse>, D
             .map(|item| (item.id.to_string(), item)),
     );
 
-    let response_rooms = rooms_data.into_iter().map(|room| {
-        let users = rooms_map
-            .get(&room.id.to_string())
-            .unwrap()
-            .into_iter()
-            .map(|id| users_map.get(id.to_owned()).unwrap().clone())
-            .collect::<Vec<_>>();
-        return RoomResponse{ room, users };
-    }).collect::<Vec<_>>();
+    let response_rooms = rooms_data
+        .into_iter()
+        .map(|room| {
+            let users = rooms_map
+                .get(&room.id.to_string())
+                .unwrap()
+                .into_iter()
+                .map(|id| users_map.get(id).unwrap().clone())
+                .collect::<Vec<_>>();
+            return RoomResponse { room, users };
+        })
+        .collect::<Vec<_>>();
     Ok(response_rooms)
 }
 

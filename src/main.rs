@@ -22,12 +22,12 @@ async fn main() -> std::io::Result<()> {
     let conn_spec = "chat.db";
     let manager = ConnectionManager::<SqliteConnection>::new(conn_spec);
     let pool = r2d2::Pool::builder().build(manager).expect("Failed to create pool.");
-    let server_addr = "127.0.0.1";
-    let server_port = 8080;
+    let server_addr = "1.14.155.26";
+    let server_port = 8888;
     let app = HttpServer::new(move || {
         let cors = Cors::default()
-            .allowed_origin("http://127.0.0.1:3000")
-            .allowed_origin("http://127.0.0.1:8080")
+            .allowed_origin("http://1.14.155.26:3000")
+            .allowed_origin("http://1.14.155.26:8888")
             .allowed_methods(vec!["GET", "POST"])
             .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
             .allowed_header(http::header::CONTENT_TYPE)

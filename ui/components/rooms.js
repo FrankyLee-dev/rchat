@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Avatar from "./avatar";
 async function getRooms() {
     try {
-        const url = "http://127.0.0.1:8080/rooms";
+        const url = "http://1.14.155.26:8888/rooms";
         let result = await fetch(url);
         return result.json();
     } catch (e) {
@@ -44,13 +44,11 @@ export default function ChatList({ onChatChange, userId }) {
         setLoading(true)
         getRooms()
             .then((data) => {
-                console.log('getRooms', data);
                 setData(data)
                 setLoading(false)
             })
     }, [])
     const onSelectedChat = (idx, item) => {
-        console.log('onSelectedChat', item);
         setSelectedItem(idx)
         let mapUsers = new Map();
         item.users.forEach(el => {
@@ -58,7 +56,6 @@ export default function ChatList({ onChatChange, userId }) {
         });
         const users = {
             get: (id) => {
-                console.log('onSelectedChat-id', id);
                 return mapUsers.get(id)?.username;
             },
             get_target_user: (id) => {
